@@ -10,7 +10,7 @@ def parce_data(file_name):
 
 
 def make_reply_markup(options):
-    source_markup = telebot.types.ReplyKeyboardMarkup(row_width=len(options), resize_keyboard=True)
+    source_markup = telebot.types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     source_markup_btns = []
     for v in options:
         source_markup_btns.append(telebot.types.KeyboardButton(v))
@@ -45,8 +45,8 @@ def bot_response(message):
         bot.send_message(chat_id, data['wrong_menu'])
         text = data['defoult']
 
-    responce_text = data[text]['text']
-    reply_markup = make_reply_markup(data[text]['options'])
+    responce_text = data[text].get('text', '')
+    reply_markup = make_reply_markup(data[text].get('options'))
 
     message = bot.send_message(chat_id, responce_text, reply_markup=reply_markup)
     bot.register_next_step_handler(message, bot_response)
